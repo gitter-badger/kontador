@@ -6,29 +6,21 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />        
-        <title>Map</title>
+		 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />        
+        <title>Hello</title>
     </head>
     <body>
-         <h1>VEctor Surgut</h1>
-        <input type="button" onclick="setLocationVector" value="GetLocation"/>
-		 <div id="map"></div>    
-         <i class="fa fa-map-marker">FUCK</i> 
+		 <div id="map"></div>        
     </body>
         <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
         <script>
-    		var map = L.map('map');
-            map.setView([61.2793, 73.4039], 15);
+    		var map = L.map('map').setView([61.2423, 73.4039], 13);
+    		
             L.tileLayer("http://tiles.{s}.st.vmp.ru/{z}/{x}/{y}.png", {
+            /* L.tileLayer("http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1.2", {                */
                 minZoom: 10,
-                maxZoom: 16,
-            }).addTo(map) 
-            function setLocationVector () {
-                 map.locate({setView: true, maxZoom: 15});
-             }
-            map.on('locationfound', onLocationFound);
-            function onLocationFound(e) {
-                L.marker(e.latlng).addTo(map);
-            }
+                maxZoom: 18,
+                detectRetina: !0
+            }).addTo(map)			 
         </script>	
 </html>
