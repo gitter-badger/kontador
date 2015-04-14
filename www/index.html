@@ -22,7 +22,7 @@
 		<link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.3/fotorama.css" rel="stylesheet">
 		<script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.3/fotorama.js"></script>
 
-        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet-src.js"></script>
         <script>
             var map = L.map('map');
             
@@ -46,18 +46,27 @@
                 zoomControl: false,
             }).addTo(map)   
             
-            map.locate({setView: true, maxZoom: 16});         
+
+	        map.locate({setView: true, maxZoom: 16});         	            
+
+            
+
             
             function onLocationFound(e) {
+	            
+	            console.log('loc found', e.latlng.lat, e.latlng.lng);
 			    var radius = e.accuracy / 2;
 			
 			    L.marker(e.latlng, {icon: Arrow}).addTo(map);
 			
-			    L.circle(e.latlng, {border: 0}).addTo(map);
+			    L.circle(e.latlng, radius, {border: 0}).addTo(map);
 			    
-				alert(e.latlng);
+// 				alert(e.latlng);
 			    
-				$('#jump').click(map.setView(e.latlng));
+				$('#jump').click(function () {
+
+					map.setView(e.latlng);
+				});
 			}
 			
 			map.on('locationfound', onLocationFound);
