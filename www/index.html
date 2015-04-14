@@ -11,17 +11,55 @@
     </head>
     <body>
          <div id="map"></div>        
+         <div id="overhead">
+	        <div class="fotorama">
+		    	<button id="jump">Прыгнуть в Б. А. У. и самовыпилиться</button>
+			</div> 
+         </div>
     </body>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> 
+		
+		<link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.3/fotorama.css" rel="stylesheet">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.3/fotorama.js"></script>
+
         <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
         <script>
-            var map = L.map('map');//.setView([61.2423, 73.4039], 13);
+            var map = L.map('map');
+            
+            var LocationIcon = L.Icon.extend({
+			    options: {
+			        iconUrl: 'img/location.png?v=2',
+			        iconSize:     [40, 40],
+			        iconAnchor:   [18, 14],
+			        shadowAnchor: [4, 62],
+			        popupAnchor:  [-3, -76]
+			    }
+			});
+            
+            var Arrow = new LocationIcon;
             
             L.tileLayer("http://tiles.{s}.st.vmp.ru/{z}/{x}/{y}.png", {
-            /* L.tileLayer("http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1.2", {                */
                 minZoom: 10,
                 maxZoom: 18,
-                detectRetina: !0
+                detectRetina: true,
+                attributionControl: false,
+                zoomControl: false,
             }).addTo(map)   
+            
             map.locate({setView: true, maxZoom: 16});         
+            
+            function onLocationFound(e) {
+			    var radius = e.accuracy / 2;
+			
+			    L.marker(e.latlng, {icon: Arrow}).addTo(map);
+			
+			    L.circle(e.latlng, {border: 0}).addTo(map);
+			    
+				alert(e.latlng);
+			    
+				$('#jump').click(map.setView(e.latlng));
+			}
+			
+			map.on('locationfound', onLocationFound);
         </script>   
 </html>
