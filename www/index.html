@@ -37,7 +37,7 @@
 			        iconSize:     [40, 40],
 			        iconAnchor:   [18, 14],
 			        shadowAnchor: [4, 62],
-			        popupAnchor:  [-3, -76]
+			        popupAnchor:  [2, -10]
 			    }
 			});
             
@@ -53,19 +53,23 @@
             map.attributionControl.setPrefix('');
             map.locate({setView: true, maxZoom: 16});     	            
             
+                    
 
-            function onLocationFound(e) {
-	            
-	            console.log('loc found', e.latlng.lat, e.latlng.lng);
-			    var radius = e.accuracy / 2;
+              function onLocationFound(e) {           
 			    L.marker(e.latlng, {icon: Arrow}).addTo(map);
                 map.initlat = e.latlng.lat;
                 map.initlng = e.latlng.lng;
+                map.radius = e.accuracy / 4;
+                
 			}
-
+            
             function goToXYok() {
                 map.panTo({lon: map.initlng, lat: map.initlat}, {'animate': true});
-            }
+                var imhere = L.marker([map.initlat, map.initlng ], {icon: Arrow}).addTo(map);
+                imhere.bindPopup('Im a here.').openPopup(); 
+                L.circle([map.initlat, map.initlng], map.radius).addTo(map);
+            }; 
+                        
 
 			map.on('locationfound', onLocationFound);
 
