@@ -11,20 +11,63 @@
     </head>
     <body>
          <div id="map"></div>        
+         <div id="overhead">
+	        <div class="fotorama">
+                <input type="button" onclick="goToXYok()" value="GO TO YOU"/>
+			</div> 
+         </div>
     </body>
-        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+		<link  href="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.3/fotorama.css" rel="stylesheet">
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/fotorama/4.6.3/fotorama.js"></script>
+
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet-src.js"></script>
         <script>
-            var map = L.map('map');//.setView([61.2423, 73.4039], 13);
-            
+            var map = L.map('map');
             L.tileLayer("http://tiles.{s}.st.vmp.ru/{z}/{x}/{y}.png", {
-            /* L.tileLayer("http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1.2", {                */
                 minZoom: 10,
                 maxZoom: 18,
-                detectRetina: !0
+                detectRetina: true,
+                attributionControl: false,
+                zoomControl: false,
+            }).addTo(map)  
+
+            var LocationIcon = L.Icon.extend({
+			    options: {
+			        iconUrl: 'img/location.png?v=2',
+			        iconSize:     [40, 40],
+			        iconAnchor:   [18, 14],
+			        shadowAnchor: [4, 62],
+			        popupAnchor:  [-3, -76]
+			    }
+			});
+            
+            var Arrow = new LocationIcon;
+            
+            L.tileLayer("http://tiles.{s}.st.vmp.ru/{z}/{x}/{y}.png", {
+                minZoom: 10,
+                maxZoom: 18,
+                detectRetina: true,
+                attributionControl: false,
+                zoomControl: false,
             }).addTo(map)   
-            map.locate({setView: true, maxZoom: 16});  
+            map.attributionControl.setPrefix('');
+            map.locate({setView: true, maxZoom: 16});     	            
+            
 
+            function onLocationFound(e) {
+	            
+	            console.log('loc found', e.latlng.lat, e.latlng.lng);
+			    var radius = e.accuracy / 2;
+			    L.marker(e.latlng, {icon: Arrow}).addTo(map);
+                map.initlat = e.latlng.lat;
+                map.initlng = e.latlng.lng;
+			}
 
-            //asdasdasdasd       
+            function goToXYok() {
+                map.panTo({lon: map.initlng, lat: map.initlat}, {'animate': true});
+            }
+
+			map.on('locationfound', onLocationFound);
+
         </script>   
 </html>

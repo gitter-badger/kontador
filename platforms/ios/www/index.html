@@ -6,21 +6,47 @@
         <meta name="msapplication-tap-highlight" content="no" />
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
-		 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />        
+         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />        
         <title>Hello</title>
     </head>
     <body>
-		 <div id="map"></div>        
+         <div id="map"></div>        
     </body>
         <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
         <script>
-    		var map = L.map('map').setView([61.2423, 73.4039], 13);
-    		
+            var map = L.map('map');
+            
+            var LocationIcon = L.Icon.extend({
+			    options: {
+			        iconUrl: 'img/location.png?v=2',
+			        iconSize:     [30, 30],
+			        iconAnchor:   [18, 14],
+			        shadowAnchor: [4, 62],
+			        popupAnchor:  [-3, -76]
+			    }
+			});
+            
+            var Arrow = new LocationIcon;
+            
             L.tileLayer("http://tiles.{s}.st.vmp.ru/{z}/{x}/{y}.png", {
-            /* L.tileLayer("http://tile1.maps.2gis.com/tiles?x={x}&y={y}&z={z}&v=1.2", {                */
                 minZoom: 10,
                 maxZoom: 18,
-                detectRetina: !0
-            }).addTo(map)			 
-        </script>	
+                detectRetina: true,
+                attributionControl: false,
+                zoomControl: false,
+            }).addTo(map)   
+            
+            map.locate({setView: true, maxZoom: 16});         
+            
+            function onLocationFound(e) {
+			    var radius = e.accuracy / 2;
+			
+			    L.marker(e.latlng, {icon: Arrow})..addTo(map);
+			
+			    L.circle(e.latlng, {border: 0}).addTo(map);
+			}
+			
+			map.on('locationfound', onLocationFound);
+
+        </script>   
 </html>
