@@ -1,5 +1,7 @@
 # Контадор
 
+[![Join the chat at https://gitter.im/Kontador/kontador](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Kontador/kontador?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 **Проблема:** сургутяне не знают, где покататься на велосипеде.
 
 **Задача:** показать людям, что Сургут — интересный город для велопрогулок.  
